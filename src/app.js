@@ -11,33 +11,27 @@ import cors from "cors"
 
 const app = express()
 app.use(morgan("dev"))
-// Comma-separated list of allowed frontend origins, e.g.
-// CLIENT_URL=http://localhost:5173,http://localhost:5174
-const allowedOrigins = (process.env.CLIENT_URL || 'http://localhost:5173')
-    .split(',')
-    .map((o) => o.trim());
 
 app.use(cors({
     origin(origin, callback) {
-        // allow non-browser requests (curl/postman) with no Origin header
-        if (!origin || allowedOrigins.includes(origin)) {
-            return callback(null, true);
-        }
-        return callback(new Error(`CORS blocked for origin: ${origin}`));
+        // reflect back whatever origin sent the request (allows all origins)
+        return callback(null, true);
     },
     credentials: true,
 }));
+
 app.use(express.json())
 app.use(cookieParser())
 
-app.get('/',(req,res)=>{
+app.get('/', (req, res) => {
     res.send("Api running")
 })
 
-app.use("/api/auth",authRouter)
-app.use("/api/inventory",inventoryRouter)
-app.use("/api/orders",procurementRouter)
-app.use("/api/suppliers",supplierRouter)
-app.use("/api/dashboard",dashboardRouter)
-app.use("/api/chat",chatRouter)
+app.use("/api/auth", authRouter)
+app.use("/api/inventory", inventoryRouter)
+app.use("/api/orders", procurementRouter)
+app.use("/api/suppliers", supplierRouter)
+app.use("/api/dashboard", dashboardRouter)
+app.use("/api/chat", chatRouter)
+
 export default app;
