@@ -1,0 +1,14 @@
+import { Router } from "express";
+import * as authController from "../controllers/auth.controller.js"
+
+
+const authRouter = Router()
+authRouter.post("/register",authController.register)
+authRouter.get("/get-me",authController.getMe)
+authRouter.get("/refresh-token",authController.refreshToken)
+authRouter.post("/logout",authController.logout)
+authRouter.post("/logout-all",authController.logoutAll)
+authRouter.post("/login",authController.login)
+authRouter.post("/verify-email",authController.verifyEmail)
+// router.post('/refresh', authController.refreshToken);
+export default authRouter;
